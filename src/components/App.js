@@ -4,7 +4,7 @@ import CityCard from "./CityCard";
 
 function App() {
   const [city, changeCity] = useState("");
-  const listOfCities = ["London", "Moscow", "New York", "Berlin"];
+  const listOfCities = ["London", "Moscow", "New York", "Berlin"]; // will change it later
 
   return (
     <div className="App">
@@ -23,15 +23,10 @@ function App() {
           {/*Here will be mounted the main card-like component with the current city's weather */}
           {/*
           TODO:
-          https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-          https://openweathermap.org/api/one-call-api
-          key = 51ea28dd2730cd3f7fd426a0e45af644;
-
-          for lon and lat
-          https://openweathermap.org/api/geocoding-api#direct
-          http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+          for icons:
+          https://openweathermap.org/weather-conditions
           */}
-          <CityCard city={city}/>
+          {city && <CityCard city={city}/>}
         </div>
         <div>
           {/*Here will be mounted 10 components from search history (mb like array or something) */}
