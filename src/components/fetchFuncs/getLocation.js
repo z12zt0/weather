@@ -15,7 +15,7 @@ async function getLocation(city) {
     }
     catch(err) {
         console.log(err);
-        return "An error occurred, try later please";
+        return new Error("No coords found for the given city");
     }
     return cityCoords;
 }
