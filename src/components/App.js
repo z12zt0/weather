@@ -5,9 +5,8 @@ import HistoryBar from "./HistoryBar";
 
 function App() {
   const [city, changeCity] = useState("");
-  const listOfCities = ["London", "Moscow", "New York", "Berlin"]; // will change it later
   const [history, setHistory] = useState(null);
-  // history = {city: {cityName, temperature, icon, photo}...}
+  const [listOfCities, setListOfCities] = useState(["London", "Moscow", "New York", "Berlin"]);
 
   function trimHistory(history) {
     if (!history) return;
@@ -18,7 +17,7 @@ function App() {
 
       if (sizeOfHistory > 10) {
         setHistory(past => {
-          delete past[cityTimestop];
+          delete past[Object.keys(history)[0]];
           return {...past};
         })
       }
@@ -26,22 +25,60 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("HISTORY CHANGES", history);
     trimHistory(history);
   }, [history])
   // all the idless divs will become routes later
   // also will add login (and skip button) too (check the bottom comment)
+
+  async function getEveryCity(input) {
+    let result = await fetch(`https://api.teleport.org/api/cities/?search=${input}`);
+    let json = await result.json();
+    let fullNames = [];
+    await json._embedded["city:search-results"].map(currentVariant => {
+      fullNames.push(currentVariant.matching_full_name);
+    });
+    setListOfCities(fullNames);
+  };
+
+  function throttle(func, timeout) {
+    let flag = true;
+    let savedArgs, savedContext;
+
+    return function wrapper() {
+      if (!flag) {
+        savedArgs = arguments;
+        savedContext = this;
+        return;
+      }
+      func.apply(this, arguments);
+      flag = false;
+
+      setTimeout(() => {
+        flag = true;
+        if (savedArgs) {
+          wrapper.apply(savedContext, savedArgs);
+          savedArgs = null;
+          savedContext = null;
+        }
+      }, timeout);
+    }
+  }
+  const throttledCity = throttle(getEveryCity, 2000);
+
   return (
     <div className="App">
       <h1>Weather in your city</h1>
       <div>
         <Autocomplete 
-          disablePortal
+          freeSolo
           id="input-city"
           options={listOfCities}
           sx={{ width: "75vw", m: "auto"}}
           onChange={(e, newValue) => {
-            changeCity(newValue)
+            changeCity(newValue?.split(",")[0]);
+          }}
+          onInput={async(e) => {
+            await throttledCity(e.target.value);
           }}
           renderInput={(params) => <TextField variant="outlined" {...params} label="City" />}></Autocomplete>
         </div>

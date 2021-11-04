@@ -10,13 +10,22 @@ async function getPhoto(city) {
     try {
         let response = await fetch(`https://api.teleport.org/api/urban_areas/slug:${normalizedCity}/images/`);
         let json = await response.json();
-        let desktopURL = await json.photos[0].image.web;
-        let mobileURL = await json.photos[0].image.mobile;
-
-        return [desktopURL, mobileURL];
+        var desktopURL = await json.photos[0].image.web;
+        var mobileURL = await json.photos[0].image.mobile;
     }
     catch(err) {
-        return new Error("No photo found for the city");
+        let photos = [
+        "https://wallpaper.dog/large/5488098.jpg",
+        "https://wallpaper.dog/large/5488005.jpg",
+        "https://wallpaper.dog/large/5567425.jpg",
+        "https://wallpaper.dog/large/10741432.jpg"
+        ]
+        desktopURL = mobileURL = photos[Math.floor(Math.random()*photos.length)];
+        console.err(new Error("No photo found for the city"));
+    } 
+    finally {
+        console.log(desktopURL);
+        return [desktopURL, mobileURL];
     }
 };
 
