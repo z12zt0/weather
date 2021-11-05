@@ -1,7 +1,8 @@
 /**
- * A function to get 2 photos of the given city - desktop and mobile versions
- * @param {string} city 
- * @returns {Array} desktop and mobile URLs of the city
+ * A function to get 2 photos of the given city - desktop and mobile versions.
+ * If no photo has been found in the api, get a random photo of Tokyo
+ * @param {string} city desired city to get photos
+ * @returns {Array} desktop and mobile URLs for the photos
  */
 async function getPhoto(city) {
     let normalizedCity = city.toLowerCase().replace(" ", "-");
@@ -10,7 +11,7 @@ async function getPhoto(city) {
     try {
         let response = await fetch(`https://api.teleport.org/api/urban_areas/slug:${normalizedCity}/images/`);
         let json = await response.json();
-        var desktopURL = await json.photos[0].image.web;
+        var desktopURL = await json.photos[0].image.web; // vars... vars never change...
         var mobileURL = await json.photos[0].image.mobile;
     }
     catch(err) {
@@ -24,7 +25,6 @@ async function getPhoto(city) {
         console.err(new Error("No photo found for the city"));
     } 
     finally {
-        console.log(desktopURL);
         return [desktopURL, mobileURL];
     }
 };

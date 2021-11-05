@@ -1,15 +1,14 @@
-import SmallCard from "./SmallCard";
+import PureSmallCard from "./SmallCard";
 
 function HistoryBar({history}) {
-    if (!history) return <h3>Your search history is empty...</h3>;
+    if (!history) return <h3 style={{textAlign: "center"}}>Your search history is empty...</h3>;
 
     function iterateThrough(history) {
         let cityTimestops = Object.keys(history);
-        console.log("WAS HERE -> in iteration")
-        return cityTimestops.map(curCity => <SmallCard {...history[curCity]} key={curCity} />);
+        return cityTimestops.map(curCity => <PureSmallCard {...history[curCity]} key={curCity} />);
     }
     return (
-        <div id="history-bar" style={{margin: "auto", display: "flex", flexWrap: "wrap"}}>
+        <div id="history-bar" style={{margin: "auto", display: "grid", gridTemplate: "repeat(5, 1fr) / repeat(2, 1fr)"}}>
             {iterateThrough(history)}
         </div>
     )

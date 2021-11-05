@@ -1,8 +1,8 @@
 // import { useState, useEffect } from "react";
 /**
- * 
+ * This function uses Openweather API to get longitude and latituded of the given city
  * @param {string} city Name of the city to get longitue and latitude
- * @returns {Object} given city's location and a way to re-use this hook
+ * @returns {Object} location of the city {lon: string, lat: string}
  */
 async function getLocation(city) {
     // //https://openweathermap.org/api/geocoding-api#direct

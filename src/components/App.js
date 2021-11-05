@@ -2,68 +2,47 @@ import { useState, useEffect } from "react";
 import {Autocomplete, TextField} from "@mui/material";
 import CityCard from "./CityCard";
 import HistoryBar from "./HistoryBar";
+import {getCitiesByInput, throttle} from "./fetchFuncs/getInput.js";
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// DON'T FORGET TO REMOVE ALL THE INLINE STYLES!!
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
+/* TODO:
+ THINK ABOUT THROTTLE FUNCTOIN
+ WORK ON UI
+ FIX THE TRIM FUNCTION
+ */
+
+// so, I wanted to make throttled calls on server, but it doesn't seem to work
 function App() {
   const [city, changeCity] = useState("");
   const [history, setHistory] = useState(null);
   const [listOfCities, setListOfCities] = useState(["London", "Moscow", "New York", "Berlin"]);
+  const [warningFlag, setWarningFlag] = useState(false);
 
   function trimHistory(history) {
-    if (!history) return;
-
-    let sizeOfHistory = 0;
-    for (let cityTimestop of Object.keys(history)) {
-      sizeOfHistory++;
-
-      if (sizeOfHistory > 10) {
-        setHistory(past => {
-          delete past[Object.keys(history)[0]];
-          return {...past};
-        })
-      }
-    }
+    setHistory(past => {
+      console.log("before trimming", history);
+      delete past[Object.keys(past)[0]];
+      console.log("about to do the stuff", history);
+      return {...past};
+    })
   }
 
   useEffect(() => {
+    if (!history || Object.keys(history).length < 11) return;
+    console.log("about to trim", history);
     trimHistory(history);
   }, [history])
   // all the idless divs will become routes later
   // also will add login (and skip button) too (check the bottom comment)
-
+////////
   async function getEveryCity(input) {
-    let result = await fetch(`https://api.teleport.org/api/cities/?search=${input}`);
-    let json = await result.json();
-    let fullNames = [];
-    await json._embedded["city:search-results"].map(currentVariant => {
-      fullNames.push(currentVariant.matching_full_name);
-    });
+    let fullNames = await getCitiesByInput(input);
     setListOfCities(fullNames);
   };
-
-  function throttle(func, timeout) {
-    let flag = true;
-    let savedArgs, savedContext;
-
-    return function wrapper() {
-      if (!flag) {
-        savedArgs = arguments;
-        savedContext = this;
-        return;
-      }
-      func.apply(this, arguments);
-      flag = false;
-
-      setTimeout(() => {
-        flag = true;
-        if (savedArgs) {
-          wrapper.apply(savedContext, savedArgs);
-          savedArgs = null;
-          savedContext = null;
-        }
-      }, timeout);
-    }
-  }
-  const throttledCity = throttle(getEveryCity, 2000);
+  const throttledCity = throttle(getEveryCity, 1500);
 
   return (
     <div className="App">
@@ -73,18 +52,19 @@ function App() {
           freeSolo
           id="input-city"
           options={listOfCities}
-          sx={{ width: "75vw", m: "auto"}}
+          sx={{ width: "75vw", m: "auto", mb: "3vh"}}
           onChange={(e, newValue) => {
             changeCity(newValue?.split(",")[0]);
+            setWarningFlag(flag => false);
           }}
           onInput={async(e) => {
             await throttledCity(e.target.value);
+            //await getEveryCity(e.target.value);
           }}
           renderInput={(params) => <TextField variant="outlined" {...params} label="City" />}></Autocomplete>
         </div>
         <div>
-          <h2>{city}</h2>
-          {city && <CityCard city={city} setHistory={setHistory}/>}
+          {city && <CityCard city={city} setHistory={setHistory} warningFlag={warningFlag} setWarningFlag={setWarningFlag}/>}
         </div>
         {/*will fix it later */}
         <div style={{display: "flex"}}>

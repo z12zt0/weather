@@ -1,6 +1,12 @@
 // import { useState, useEffect } from "react";
 // import useLocation from "./useLocation";
-
+/**
+ * Longitude, latitude -> name of the nearest city.
+ * More info -> https://openweathermap.org/api/one-call-api
+ * @param {String} lon longitude of the location
+ * @param {String} lat latitude of the location
+ * @returns {JSON} data about the nearest city
+ */
 async function getWeather(lon, lat) {
     // https://openweathermap.org/api/one-call-api
     try{
