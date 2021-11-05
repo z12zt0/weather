@@ -9,9 +9,10 @@ import {getCitiesByInput, throttle} from "./fetchFuncs/getInput.js";
 
 
 /* TODO:
- THINK ABOUT THROTTLE FUNCTOIN
- WORK ON UI
- FIX THE TRIM FUNCTION
+ 1)THINK ABOUT THROTTLE FUNCTOIN (use debounce - it works the same (almost),
+  but already implemented twice, so you have an example)
+ 2)WORK ON UI
+ 3)ADD .ENV SUPPORT FOR YOUR API KEY
  */
 
 // so, I wanted to make throttled calls on server, but it doesn't seem to work
@@ -23,16 +24,20 @@ function App() {
 
   function trimHistory(history) {
     setHistory(past => {
-      console.log("before trimming", history);
-      delete past[Object.keys(past)[0]];
-      console.log("about to do the stuff", history);
-      return {...past};
+      let keyToDelete = Object.keys(past)[0];
+      let newObj = Object.entries(past).filter(subArr => {
+        if (subArr[0] !== keyToDelete) {
+          return true;
+        }
+        return false;
+      });
+      
+      return Object.fromEntries(newObj);
     })
   }
 
   useEffect(() => {
     if (!history || Object.keys(history).length < 11) return;
-    console.log("about to trim", history);
     trimHistory(history);
   }, [history])
   // all the idless divs will become routes later
