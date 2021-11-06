@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import {Autocomplete, TextField} from "@mui/material";
 import CityCard from "./CityCard";
 import HistoryBar from "./HistoryBar";
-import {getCitiesByInput, throttle} from "./fetchFuncs/getInput.js";
+import {getCitiesByInput, debounce} from "./fetchFuncs/getInput.js";
+import AuthPage from "./AuthPage.js";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AutocompletedInput from "./AutocompletedInput";
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // DON'T FORGET TO REMOVE ALL THE INLINE STYLES!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 /* TODO:
- 1)THINK ABOUT THROTTLE FUNCTOIN (use debounce - it works the same (almost),
-  but already implemented twice, so you have an example)
  2)WORK ON UI
  3)ADD .ENV SUPPORT FOR YOUR API KEY
+ 4) REACT ROUTER -> AUTH PAGE
  */
 
-// so, I wanted to make throttled calls on server, but it doesn't seem to work
 function App() {
   const [city, changeCity] = useState("");
   const [history, setHistory] = useState(null);
-  const [listOfCities, setListOfCities] = useState(["London", "Moscow", "New York", "Berlin"]);
+  const [listOfCities, setListOfCities] = useState([]);
   const [warningFlag, setWarningFlag] = useState(false);
 
   function trimHistory(history) {
@@ -40,42 +40,61 @@ function App() {
     if (!history || Object.keys(history).length < 11) return;
     trimHistory(history);
   }, [history])
-  // all the idless divs will become routes later
-  // also will add login (and skip button) too (check the bottom comment)
-////////
+
   async function getEveryCity(input) {
     let fullNames = await getCitiesByInput(input);
     setListOfCities(fullNames);
   };
-  const throttledCity = throttle(getEveryCity, 1500);
+  const debouncedCity = debounce(getEveryCity, 300);
+
+  function setTransition(id, isOnFocus) {
+    let element = document.getElementById(id);
+    
+    if (isOnFocus) {
+      if (!city) {
+        element.style.marginTop = "5vh";
+        // timeout and scrollTo need to re-render window, so 
+        // the pop-up div will catch up to city-input
+        setTimeout(() => window.scrollTo({top: 1, left: 0, behavior: "smooth"}), 300);
+      }
+      return;
+    }
+    if (!city) {
+      element.style.marginTop = "20vh";
+      window.scrollTo(0, 0);
+    }
+    
+    
+  }
 
   return (
     <div className="App">
-      <h1>Weather in your city</h1>
-      <div>
-        <Autocomplete 
-          freeSolo
-          id="input-city"
-          options={listOfCities}
-          sx={{ width: "75vw", m: "auto", mb: "3vh"}}
-          onChange={(e, newValue) => {
-            changeCity(newValue?.split(",")[0]);
-            setWarningFlag(flag => false);
-          }}
-          onInput={async(e) => {
-            await throttledCity(e.target.value);
-            //await getEveryCity(e.target.value);
-          }}
-          renderInput={(params) => <TextField variant="outlined" {...params} label="City" />}></Autocomplete>
-        </div>
-        <div>
-          {city && <CityCard city={city} setHistory={setHistory} warningFlag={warningFlag} setWarningFlag={setWarningFlag}/>}
-        </div>
-        {/*will fix it later */}
-        <div style={{display: "flex"}}>
-          {/*maybe I should add a button to go to the ./history route */}
-          <HistoryBar history={history} />
-        </div>
+      <Routes>
+        
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/weather" element={
+          <div id="app__weather-wrapper">
+            <h1 style={{textAlign: "center", marginTop: "10vh"}}>Weather in your city</h1>
+
+            <AutocompletedInput 
+              setTransition={setTransition}
+              listOfCities={listOfCities}
+              changeCity={changeCity}
+              setWarningFlag={setWarningFlag}
+              debouncedCity={debouncedCity}
+            />
+            <div id="app__weather__cityCard">
+              {city && <CityCard city={city} setHistory={setHistory} warningFlag={warningFlag} setWarningFlag={setWarningFlag}/>}
+            </div>
+
+            <div style={{display: "flex"}} id="app__weather__historyBar">
+              <HistoryBar history={history} />
+            </div>
+          </div>       
+        }>
+        </Route>
+        <Route path="*" element={<Navigate to="/"/>} ></Route>
+      </Routes>
     </div>
   );
 }

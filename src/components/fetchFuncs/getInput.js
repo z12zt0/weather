@@ -1,3 +1,5 @@
+import debounce from "debounce";
+
 async function getCitiesByInput(input) {
     let result = await fetch(`https://api.teleport.org/api/cities/?search=${input}`);
     let json = await result.json();
@@ -10,29 +12,43 @@ async function getCitiesByInput(input) {
 };
 // this doesn't work at all
 // but in the mui tutorial they used _.throttle - check it
-function throttle(func, timeout) {
+ // sync debounce - doesn't work
+  // let flag = true;
     
-    let flag = true;
-    let savedArgs, savedContext;
+  // return async function wrapper() {
+  //   if (!flag) {
+  //     return;
+  //   }
+  //   await func.apply(this, arguments);
+  //   flag = false;
 
-    return async function wrapper() {
-      if (!flag) {
-        savedArgs = arguments;
-        savedContext = this;
-        return;
-      }
-      await func.apply(this, arguments);
-      flag = false;
+  //   setTimeout(() => {
+  //     flag = true;
+  //   }, timeout);
+  // }
 
-      setTimeout(() => {
-        flag = true;
-        if (savedArgs) {
-          wrapper.apply(savedContext, savedArgs);
-          savedArgs = null;
-          savedContext = null;
-        }
-      }, timeout);
-    }
-  }
+  // sync throttle - doesn't work
 
-export {getCitiesByInput, throttle};
+  // let flag = true;
+  // let savedArgs, savedContext;
+
+    // return async function wrapper() {
+    //   if (!flag) {
+    //     savedArgs = arguments;
+    //     savedContext = this;
+    //     return;
+    //   }
+    //   await func.apply(this, arguments);
+    //   flag = false;
+
+    //   setTimeout(() => {
+    //     flag = true;
+    //     if (savedArgs) {
+    //       wrapper.apply(savedContext, savedArgs);
+    //       savedArgs = null;
+    //       savedContext = null;
+    //     }
+    //   }, timeout);
+    // }
+
+export {getCitiesByInput, debounce};

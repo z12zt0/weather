@@ -37,9 +37,8 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
 
     if (loading) {
         return (
-         <div style={{margin: "auto", width: "100vw", height: "100vh"}}>
-            <h1>Loading...</h1>
-            <CircularProgress color="inherit" />   
+         <div style={{margin: "auto", width: "100vw", display: "flex", placeContent: "center" }}>
+            <CircularProgress color="inherit" sx={{m: "15vh"}}/>   
         </div>
         )
     }

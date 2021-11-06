@@ -15,7 +15,7 @@ function SmallCard({city, temperature, icon, photo}) {
             <Box sx={{ display: 'flex', alignItems: 'center'}}>
                 <CardMedia
                     component="img"
-                    sx={{ width: "auto" }}
+                    sx={{ width: "auto"}}
                     image={`http://openweathermap.org/img/wn/${icon}@2x.png`}
                     alt="current weather"
                 />
