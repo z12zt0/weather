@@ -1,38 +1,48 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TextField, FormControl, Box, Button } from "@mui/material";
+import "../CSS/authPage.css";
 
 function AuthPage() {
-    return (
-        <Box id="app__auth" sx={{width: "100vw", height: "100vh", display: "flex", placeContent: "center"}}>
-            <FormControl sx={{display: "flex", placeContent: "center", width: "50vw"}}>
-                {/* <label htmlFor="input-email">Email</label>
-                <input className="input_auth" id="input-email" type="email" placeholder="email@mail.com"></input>
+    const navigate = useNavigate();
 
-                <label htmlFor="input-email">Password</label>
-                <input className="input_auth" id="input-password" type="password" placeholder="*****"></input> */}
+    function submitHandler(e) {
+        e.preventDefault();
+        // can use location.replace as an alternative
+        navigate("weather");
+    }
+
+    return (
+        <Box id="app__auth">
+            <FormControl id="app__auth__form" >
                 <h1>Let's authorize you</h1>
+                <p>P.S. this is a dummy-page, so you can just press the "Enter" button to continue</p>
                 <TextField
-                    id="input_auth_email"
-                    helperText="Email"
+                    label="Email"
+                    helperText="Please enter your email"
                     placeholder="Email@mail.com"
                     variant="outlined"
                     type="email"
+                    required
                 >    
                 </TextField>
 
                 <TextField
-                    id="input_auth_password"
-                    helperText="Password"
+                    label="Password"
+                    helperText="Please enter your password"
                     placeholder="Your password goes here..."
                     variant="outlined"
                     type="password"
+                    required
+                    sx={{mt: "10px"}}
                 >    
                 </TextField>
-
-
-                <Link to="/weather" style={{textDecoration: "none"}}>
-                    <Button variant="contained" size="large" type="submit">Enter</Button>
-                </Link>
+                <Button 
+                    onClick={(e) => submitHandler(e)} 
+                    variant="contained" 
+                    size="large" 
+                    type="submit">
+                        Enter
+                </Button>
             </FormControl>
         </Box>
         

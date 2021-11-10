@@ -1,0 +1,17 @@
+#app__auth {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    place-content: center;
+}
+
+#app__auth__form {
+    display: flex;
+    place-content: center;
+    width: 50vw;
+}
+
+#app__auth__form button {
+    width: 15%; 
+}

@@ -1,5 +1,3 @@
-// import { useState, useEffect } from "react";
-// import useLocation from "./useLocation";
 /**
  * Longitude, latitude -> name of the nearest city.
  * More info -> https://openweathermap.org/api/one-call-api

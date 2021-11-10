@@ -1,0 +1,66 @@
+#loading-banner {
+    margin: auto;
+    width: 100vw;
+
+    display: flex;
+    place-content: center;
+}
+
+/*main card: img and big text*/
+#mainCard {
+    max-width: 75vw;
+    margin: auto;
+    margin-bottom: 5vh;
+}
+#mainCard > img {
+    min-height: 20vh;
+    max-height: 153px;
+}
+#mainCard__display {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+#mainCard__percipitation > img {
+    margin-bottom: -5vh;
+    margin-top: -5vh;
+}
+
+/*percipitation*/
+#mainCard__percipitation aside {
+    margin: 0;
+    text-align: center;
+}
+#mainCard__percipitation aside h2 {
+    margin-bottom: inherit;
+    margin-top: -4vh;
+}
+#mainCard__percipitation aside p {
+    margin-top: inherit;
+}
+
+/*Additional informaion in the card*/
+#mainCard__addInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#mainCard__addInfo div {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.inheritH3Text {
+    padding: inherit;
+    margin: inherit;
+}
+
+#mainCard__addInfo div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+/*alert*/
+#warning-button {
+    margin: auto;
+}

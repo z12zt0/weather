@@ -1,0 +1,8 @@
+#app__weather-wrapper h1 {
+    text-align: center;
+    margin-top: 10vh;
+}
+
+#app__weather__historyBar {
+    display: flex;
+}

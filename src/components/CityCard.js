@@ -5,6 +5,8 @@ import getPhoto from "./fetchFuncs/getPhoto.js";
 import { Card, CardMedia, Typography, CardActions, CardContent, Button, Alert, CircularProgress, Box } from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import AlertBox from "./AlertBox.js";
+import "../CSS/cityCard.css";
+
 
 function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
     const [weatherData, setWeatherData] = useState(null);
@@ -35,9 +37,10 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
         })
     }, [weatherData]); // this is not a good thing to do (why would this component save stuff in history???)
 
+
     if (loading) {
         return (
-         <div style={{margin: "auto", width: "100vw", display: "flex", placeContent: "center" }}>
+         <div id="loading-banner">
             <CircularProgress color="inherit" sx={{m: "15vh"}}/>   
         </div>
         )
@@ -45,18 +48,17 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
     // for the icon - http://openweathermap.org/img/wn/{icon}@{times(0, 2, 4)}x.png
     return (
         <div>
-            <Card sx={{maxWidth: "75vw", margin: "auto",}}>
+            <Card id="mainCard" >
                 <CardMedia
-                    sx={{minHeight: "20vh", maxHeight: "153px"}}
                     component="img"
                     height="auto"
                     image={photoURL[0]}
                     alt={`${city} is really nice`}
                 />
+
                 <CardContent>
-                    {/*WIP*/}
-                    <Box id="main-card" sx={{display: "flex", justifyContent: "space-between", alignItems: "start"}}>
-                        <div id="main-card__intoduction">
+                    <Box id="mainCard__display" >
+                        <div>
                             <Typography variant="h2" component="div">
                                 {city}
                             </Typography>
@@ -65,44 +67,41 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
                             </Typography>
                         </div>
 
-                        <div id="main-card__percipitation">
-                        <CardMedia
-                            sx={{mb: "-5vh", mt:"-5vh"}}
-                            component="img"
-                            height="auto"
-                            image={`http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`}
-                            alt="current weather icon"
-                        />
-                        <Typography variant="body1" component="aside" sx={{m: "0", textAlign: "center"}}>
-                            <h2 style={{marginBottom:"inherit", marginTop: "-4vh"}}>{weatherData.current.weather[0].main}</h2>
-                            <p style={{marginTop: "inherit"}}>{weatherData.current.weather[0].description}</p>
-                        </Typography>
+                        <div id="mainCard__percipitation">
+                            <CardMedia   
+                                component="img"
+                                height="auto"
+                                image={`http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`}
+                                alt="current weather icon"
+                            />
+                            <Typography variant="body1" component="aside">
+                                <h2>{weatherData.current.weather[0].main}</h2>
+                                <p>{weatherData.current.weather[0].description}</p>
+                            </Typography>
                             
                         </div>
                     </Box>
-                    {/*will re-make this tomorrow */}               
-                    <Box variant="body" component="div" sx={{display: "flex", alignItems: "ceneter", justifyContent: "space-evenly"}}>
-                        <Box sx={{mb: 0, pb: 0}} color="GrayText">
-                            {/* unite them in a single class */}
-                            <h3 style={{padding: "inherit", margin: "inherit"}}>{`Temperature: ${weatherData.current.temp+"℃"}`}</h3>
-                            <h3 style={{padding: "inherit", margin: "inherit"}}>{`Feels like: ${weatherData.current.feels_like+"℃"}`}</h3>
-                            
+                                 
+                    <Box id="mainCard__addInfo" variant="body" component="div">
+                        <Box color="GrayText">
+                            <h3 className="inheritH3Text">{`Temperature: ${weatherData.current.temp+"℃"}`}</h3>
+                            <h3 className="inheritH3Text">{`Feels like: ${weatherData.current.feels_like+"℃"}`}</h3>         
                         </Box>
                         <h3>{`Clouds: ${weatherData.current.clouds}%`}</h3>
-                        <Box sx={{mb: 0, pb: 0, display: "flex", alignItems: "center", justifyContent: "space-evenly"}} color="GrayText">
-                            {/* unite them in a single class */}
-                            <h3 style={{padding: "inherit", margin: "inherit"}}>{`Wind speed: ${weatherData.current.wind_speed}`}</h3>
-                            <h3 style={{padding: "inherit", margin: "inherit"}}>{<ArrowUpwardIcon titleAccess={weatherData.current.wind_deg+"deg"} sx={{transform: `translateY(3px) rotate(${weatherData.current.wind_deg}deg)`}}/>}</h3>
+                        <Box color="GrayText">
+                            <h3 className="inheritH3Text">{`Wind speed: ${weatherData.current.wind_speed}`}</h3>
+                            <h3 className="inheritH3Text">{<ArrowUpwardIcon titleAccess={weatherData.current.wind_deg+"deg"} sx={{transform: `translateY(3px) rotate(${weatherData.current.wind_deg}deg)`}}/>}</h3>
                         </Box>
-                    </Box>
-                    
+                    </Box>  
                 </CardContent>
+
                 <CardActions>
                     {weatherData.alerts && 
-                    <Button variant="oulined" size="medium" sx={{margin: "auto"}} onClick={() => setWarningFlag(flag => !flag)}>
+                    <Button id="warning-button" variant="oulined" size="medium" onClick={() => setWarningFlag(flag => !flag)}>
                         <Alert severity="warning">There are currently warnings for this area</Alert>
                     </Button>}
                 </CardActions>
+
                 {warningFlag &&
                  <CardContent>
                      <Box>
@@ -113,7 +112,6 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
                      </Box>
                 </CardContent>}
             </Card>
-            {/*weatherData && <div>{JSON.stringify(weatherData)}</div>*/}
         </div>
     )
 }

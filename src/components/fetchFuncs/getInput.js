@@ -11,7 +11,7 @@ async function getCitiesByInput(input) {
     return fullNames;
 };
 // this doesn't work at all
-// but in the mui tutorial they used _.throttle - check it
+
  // sync debounce - doesn't work
   // let flag = true;
     

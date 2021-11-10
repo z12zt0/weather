@@ -1,0 +1,26 @@
+/*the main shape of the card and text within it*/
+.smallCard {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+}
+.smallCard > div {
+    display: flex;
+    align-items: center;
+
+    overflow-wrap: break-word;
+}
+.smallCard > div p {
+    font-size: 2rem;
+}
+/*icon and img of the city*/
+.smallCard > img {
+    max-width: 150px;
+    width: auto;
+
+    padding-left: 2vw;
+}
+.smallCard > div img {
+    max-width: 85px;
+    width: auto;
+}

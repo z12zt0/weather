@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.smallCard__cityName_resizeable {
+  overflow-wrap: break-word;
+}

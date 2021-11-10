@@ -1,31 +1,31 @@
-import { Card, CardContent, Box, Typography, CardMedia } from "@mui/material";
+import { Card, Box, Typography, CardMedia } from "@mui/material";
 import { memo } from "react";
+import "../CSS/historySmallCard.css";
+
 
 function SmallCard({city, temperature, icon, photo}) {
 
     return (
-        <Card sx={{ display: 'flex', justifyContent: "space-between", m: '15px' }}>
-            <Box sx={{display: "flex", alignItems: "center"}}>
-                <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" sx={{fontSize: "2rem"}}>
-                        {city}
-                    </Typography>
-                </CardContent>
+        <Card className="smallCard" id={`city-${city}`}>
+            <Box>
+                <Typography>
+                    {city}
+                </Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center'}}>
+            <Box>
                 <CardMedia
                     component="img"
-                    sx={{ width: "auto"}}
+                    id={`cityIcon-${icon}`}
                     image={`http://openweathermap.org/img/wn/${icon}@2x.png`}
                     alt="current weather"
                 />
                 <Typography variant="h4" color="text.secondary" component="div">
-                        {temperature + "℃"}
+                        <p id={`cityTemp-${city}`}>{temperature + "℃"}</p>
                 </Typography>
             </Box>
             <CardMedia
                 component="img"
-                sx={{ width: 150, pl: "10px"}}
+                id={`cityImg-${city}`}
                 image={photo}
                 alt="city image"
             />

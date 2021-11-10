@@ -1,0 +1,10 @@
+#noHistoryH3 {
+    text-align: center;
+    width: 100vw;
+}
+#history-bar {
+    margin: auto;
+
+    display: grid;
+    grid-template: repeat(5, 1fr) / repeat(2, 1fr);
+}
