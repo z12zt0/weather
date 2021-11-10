@@ -8,6 +8,7 @@ function AutocompletedInput({listOfCities, setTransition, changeCity, setWarning
         <div id="input-wrapper" >
               <Autocomplete 
                 freeSolo
+                selectOnFocus
                 id="input-city"
                 options={listOfCities}
                 sx={{ width: "75vw", m: "auto", mb: "3vh"}}

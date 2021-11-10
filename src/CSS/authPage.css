@@ -12,6 +12,11 @@
     width: 50vw;
 }
 
+#app__auth__form h1 {
+    font-size: 3rem;
+    color: rgb(39, 39, 39);
+}
+
 #app__auth__form button {
     width: 15%; 
 }

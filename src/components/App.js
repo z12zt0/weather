@@ -2,21 +2,12 @@ import { useState, useEffect } from "react";
 import {getCitiesByInput, debounce} from "./fetchFuncs/getInput.js";
 import AuthPage from "./AuthPage.js";
 import { Routes, Route, Navigate } from "react-router-dom";
-import setTransition from "./setTransition.js"
+import setTransition from "./additionalFuncs/setTransition.js"
 import Weather from "./Weather";
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// DON'T FORGET TO REMOVE ALL THE INLINE STYLES!!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 /* TODO:
- 2)WORK ON UI
- 3)ADD .ENV SUPPORT FOR YOUR API KEY
- 
- // CSS FILE
- // clean up the mess
- // useFetch - all the fetch functions in it
- */
+ 1) WORK ON UI
+*/
 
 function App() {
   const [city, changeCity] = useState("");

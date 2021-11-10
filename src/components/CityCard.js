@@ -57,7 +57,7 @@ function CityCard({city, setHistory, warningFlag, setWarningFlag}) {
                 />
 
                 <CardContent>
-                    <Box id="mainCard__display" >
+                    <Box id="mainCard__display">
                         <div>
                             <Typography variant="h2" component="div">
                                 {city}

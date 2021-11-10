@@ -9,6 +9,8 @@
     align-items: center;
 
     overflow-wrap: break-word;
+    overflow: hidden;
+    padding-left: 5px;
 }
 .smallCard > div p {
     font-size: 2rem;

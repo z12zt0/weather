@@ -1,6 +1,9 @@
 #app__weather-wrapper h1 {
     text-align: center;
     margin-top: 10vh;
+
+    font-size: 3rem;
+    color: rgb(54, 54, 54);
 }
 
 #app__weather__historyBar {
